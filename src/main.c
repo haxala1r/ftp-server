@@ -48,7 +48,7 @@ void serve_client(struct connection *conn) {
 
 int main(int argc, char *argv[]) {
 	/* Load the users and their passwords from a file. */
-	if (ftp_init_users("users")) {
+	if (ftp_init_users(get_users_arg(argc, argv))) {
 		puts("Error occured while loading user info.\n");
 		return  1;
 	}
@@ -96,9 +96,18 @@ int main(int argc, char *argv[]) {
 
 		/* Spawn new process to handle the connection. */
 		int pid = fork();
+		if (pid < 0) {
+			perror("main:  can't fork()");
+			break;
+		}
 		if (pid == 0) {
 			close(sd);
+
+			/* Change directory, then serve it. */
+			chdir(get_dir_arg(argc, argv));
 			serve_client(conn);
+
+
 			close(conn->fd);
 			exit(0);
 		}

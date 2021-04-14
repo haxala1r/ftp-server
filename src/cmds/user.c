@@ -83,6 +83,13 @@ void ftp_cmd_user(struct command *cmd, struct connection *conn) {
 		return;
 	}
 
+	if (conn->u != NULL) {
+		conn->u->online--;
+		conn->logged_in = 0;
+		printf("User %s logged out.\n", conn->u->username);
+		conn->u = NULL;
+	}
+
 	/* Look for the username. */
 	for (int i = 0; i < user_count; i++) {
 		if (!strcmp(users[i].username, cmd->arg)) {
@@ -119,6 +126,7 @@ void ftp_cmd_pass(struct command *cmd, struct connection *conn) {
 		conn->logged_in = 1;
 		conn->u->online++;
 		write(conn->fd, login_success, strlen(login_success));
+		printf("User %s logged in.\n", conn->u->username);
 		return;
 	}
 
@@ -135,7 +143,7 @@ void ftp_cmd_quit(struct command *cmd, struct connection *conn) {
 
 	if ((conn->u != NULL) && (conn->logged_in)) {
 		conn->u->online--;
-		printf("User %s quit.\n", conn->u->username);
+		printf("User %s logged out.\n", conn->u->username);
 	}
 
 	conn->logged_in = 0;

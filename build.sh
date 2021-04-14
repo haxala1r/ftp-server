@@ -7,4 +7,4 @@ for F in $(find src/ -name "*.c" -type f); do
 done;
 
 
-gcc $ARG -o ftp.out -static -O0
+gcc $ARG -o ftp -static

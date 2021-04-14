@@ -89,5 +89,43 @@ int get_port_arg(int argc, char *argv[]) {
 };
 
 
+/* Same as above, except this gets the directory to be served. Default "./" */
+char *get_dir_arg(int argc, char *argv[]) {
+	if ((argc < 3) || (argv == NULL)) {
+		return "./";
+	}
 
+	for (int i = 1; i < (argc - 1); i++) {
+		if (argv[i] == NULL) {
+			continue;
+		}
+
+		if (!strcmp(argv[i], "-d")) {
+			return argv[i + 1];
+		}
+	}
+
+	return "./";
+};
+
+/* Same as above, except gets the file usernames and passwords are kept in.
+ * Default "./users"
+ */
+char *get_users_arg(int argc, char *argv[]) {
+	if ((argc < 3) || (argv == NULL)) {
+		return "./users";
+	}
+
+	for (int i = 1; i < (argc - 1); i++) {
+		if (argv[i] == NULL) {
+			continue;
+		}
+
+		if (!strcmp(argv[i], "-u")) {
+			return argv[i + 1];
+		}
+	}
+
+	return "./users";
+};
 

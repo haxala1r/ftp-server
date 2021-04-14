@@ -6,3 +6,5 @@ int gen_port();
 
 /* Extract certain arguments from the list passed to main(). */
 int get_port_arg(int argc, char *argv[]);
+char *get_dir_arg(int argc, char *argv[]);
+char *get_users_arg(int argc, char *argv[]);
