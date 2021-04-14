@@ -46,22 +46,25 @@ void serve_client(struct connection *conn) {
 };
 
 
-int main(void) {
+int main(int argc, char *argv[]) {
 	/* Load the users and their passwords from a file. */
 	if (ftp_init_users("users")) {
 		puts("Error occured while loading user info.\n");
 		return  1;
 	}
 
+	int port = get_port_arg(argc, argv);
+
 	/* Create the listening socket, and then... well, listen.*/
 	int sd = socket(AF_INET, SOCK_STREAM, 0);
 	int opt_val = 1;
+
 	setsockopt(sd, SOL_SOCKET, SO_REUSEPORT, &opt_val, sizeof(opt_val));
 	struct sockaddr_in saddr;
 
 	saddr.sin_family = AF_INET;
 	saddr.sin_addr.s_addr = INADDR_ANY;
-	saddr.sin_port = htons(2121);
+	saddr.sin_port = htons(port);
 
 	if (bind(sd, (struct sockaddr *)&saddr, sizeof(saddr))) {
 		puts("Bind failed.\n");
@@ -72,7 +75,7 @@ int main(void) {
 
 	listen(sd, 3);
 
-	puts("Listening.\n");
+	printf("Listening on port %d\n", port);
 
 	while (1) {
 		/* Wait for a new connection, then accept. */

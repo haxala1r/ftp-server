@@ -16,5 +16,6 @@ If the server doesn't recognize a command, it will automatically send a
 
 # Usage
 Simply launch the resulting executable after building. It will start listening on
-port 2121. Change this from the source if you like. The ability to specify this
-in the command line will be implemented soon.
+port 2121 by default. You can specify a different port number like this:
+
+`./ftp.out -p <PORT>`

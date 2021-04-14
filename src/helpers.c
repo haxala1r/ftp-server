@@ -69,4 +69,25 @@ int gen_port() {
 };
 
 
+/* Given the argc and argv that is passed to main(), get the port. Default 2121.*/
+int get_port_arg(int argc, char *argv[]) {
+	if ((argc < 3) || (argv == NULL)) {
+		return 2121;
+	}
+
+	for (int i = 1; i < (argc - 1); i++) {
+		if (argv[i] == NULL) {
+			continue;
+		}
+
+		if (!strcmp(argv[i], "-p")) {
+			return atoi(argv[i + 1]);
+		}
+	}
+
+	return 2121;
+};
+
+
+
 
