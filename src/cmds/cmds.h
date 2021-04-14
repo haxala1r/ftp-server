@@ -11,12 +11,14 @@
 #define FTP_PORT 5
 #define FTP_PASV 6
 #define FTP_CWD  7
-#define FTP_PWD  8
-#define FTP_RETR 9
-#define FTP_STOR 10
-#define FTP_DELE 11
-#define FTP_RMD  12
-#define FTP_MKD  13
+#define FTP_CDUP 8
+#define FTP_PWD  9
+#define FTP_RETR 10
+#define FTP_STOR 11
+#define FTP_DELE 12
+#define FTP_RMD  13
+#define FTP_MKD  14
+
 
 
 
@@ -70,7 +72,7 @@ void ftp_cmd_stor(struct command *cmd, struct connection *conn);
 void ftp_cmd_dele(struct command *cmd, struct connection *conn);
 void ftp_cmd_rmd(struct command *cmd, struct connection *conn);
 void ftp_cmd_mkd(struct command *cmd, struct connection *conn);
-
+void ftp_cmd_cdup(struct command *cmd, struct connection *conn);
 
 int ftp_init_users(char *users_file);
 
@@ -78,7 +80,7 @@ int ftp_init_users(char *users_file);
 int handle_cmd(struct command *cmd, struct connection *conn);
 
 static const char *cmd_funcs[] = {
-	"USER", "PASS", "SYST", "QUIT", "LIST", "PORT", "PASV", "CWD", "PWD", "RETR", "STOR",
+	"USER", "PASS", "SYST", "QUIT", "LIST", "PORT", "PASV", "CWD", "CDUP", "PWD", "RETR", "STOR",
 	"DELE", "RMD", "MKD", NULL
 };
 
@@ -103,3 +105,4 @@ static const char *closing_data_conn = "226 Command successful. Closing data con
 static const char *cant_open_data = "425 Falure while opening data connection.\n";
 static const char *succ = "200 OK.\n";
 static const char *internal_err = "451 Internal server error.\n";
+static const char *invalid_param = "504 Command not implemented for that parameter.\n";

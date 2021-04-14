@@ -100,6 +100,10 @@ int handle_cmd(struct command *cmd, struct connection *conn) {
 		ftp_cmd_cwd(cmd, conn);
 		break;
 
+	case FTP_CDUP:
+		ftp_cmd_cdup(cmd, conn);
+		break;
+
 	case FTP_PWD:
 		ftp_cmd_pwd(cmd, conn);
 		break;

@@ -104,9 +104,11 @@ int main(int argc, char *argv[]) {
 			close(sd);
 
 			/* Change directory, then serve it. */
-			chdir(get_dir_arg(argc, argv));
+			if (chdir(get_dir_arg(argc, argv))) {
+				puts("The directory specified does not exist.");
+				exit(1);
+			}
 			serve_client(conn);
-
 
 			close(conn->fd);
 			exit(0);
